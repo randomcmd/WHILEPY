@@ -1,0 +1,13 @@
+# x and y are added and the result is stored in z and printed
+
+x = 69
+y = 420
+
+yy = y + 0
+z = x + 0
+
+while yy != 0
+    z = z + 1
+while
+
+print z

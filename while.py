@@ -24,10 +24,9 @@ while_stack = []
 while_frame_stack = []
 
 # Regex for different commands
-
 regex_addition = "[a-zA-Z]+([a-zA-Z]*[0-9]*)+ = [a-zA-Z]+([a-zA-Z]*[0-9]*)+ \+ [0-9]+"
 regex_subtraction = "[a-zA-Z]+([a-zA-Z]*[0-9]*)+ = [a-zA-Z]+([a-zA-Z]*[0-9]*)+ \- [0-9]+"
-regex_while_condition = "while [a-zA-Z]+([a-zA-Z]*[0-9]*)+ \!\= 0"  # Comparisons like < > are not allowed in while 8
+regex_while_condition = "while [a-zA-Z]+([a-zA-Z]*[0-9]*)+ \!\= 0"
 regex_while_frame = "while"
 regex_print = "print [a-zA-Z]+([a-zA-Z]*[0-9]*)+"
 regex_comment = "\A#"
@@ -43,19 +42,21 @@ def execute(filename):
 
 def get_var(var):
     try:
+        # Try getting the variable
         return variables[var]
     except:
+        # If the variable does not exist create it and return 0
         variables[var] = 0
         return 0
 
 
 def printvar(line):
+    # Print variable from print statement
     varname = line.split(" ")[1]
     print(varname + " -> " + str(get_var(varname)))
 
 
 def assignement(line, plus):
-    # example x = x + 1696969606060069
     linearray = line.split(" ")
 
     if plus:
@@ -64,33 +65,37 @@ def assignement(line, plus):
         result = get_var(linearray[2]) - int(linearray[3 + 1])
     result = max(result, 0)
     variables[linearray[0]] = result;
-    # print(result) #debug
 
 
 def evaluate(code):
     for i, line in enumerate(code):
         line = line.lstrip()
-        # print(line, end=" ")
         if re.match(regex_comment, line) is not None:
-            # print("Matches comment regex")
             continue
         elif re.match(regex_while_condition, line) is not None:
-            #
-            print(f"Matches while condition regex {i}")
             while_stack.append((i, line.split(" ")[1]))
-            print(">>" + str(while_stack))
         elif re.match(regex_while_frame, line) is not None:
-            #
-            print(f"Matches while frame regex {i}")
-            while_frame_stack.append((i, while_stack.pop()))
-            print(">>" + str(while_frame_stack))
+            try:
+                while_frame_stack.append((i, while_stack.pop()))
+            except:
+                if (line):
+                    raise Exception(f"Error in line [{i}] -> {line}")
 
-    if len(while_stack) != 0: raise Exception("Reached end of file while parsing") 
+
+
+        elif not (
+                re.match(regex_addition, line) is not None or re.match(regex_subtraction, line) is not None or re.match(
+            regex_print, line) is not None):
+            #print("Error or empty line")
+            if (line):  # = not line != None or @   @
+                raise Exception(f"Error in line [{i}] -> {line}")
+
+    if len(while_stack) != 0: raise Exception("Reached end of file while parsing")
 
 
 def run(code):
     i = -1
-    while i < len(code) - 1: 
+    while i < len(code) - 1:
         # .
         i += 1
         line = code[i]

@@ -1,0 +1,19 @@
+# x and y are multiplicated and the result is stored in z and printed
+
+x = x + 10
+y = y + 12
+
+xx = x + 0
+yy = y + 0
+z = z + 0
+
+while xx != 0
+    while yy != 0
+        z = z + 1
+        yy = yy - 1
+    while
+    yy = y + 0
+    xx = xx - 1
+while
+
+print z
