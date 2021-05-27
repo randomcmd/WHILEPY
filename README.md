@@ -30,6 +30,6 @@ The rules of this language are very simple
    
 # Why?
 
-This language is one of the most simple turing complete languages there is and was originally made by ```iforgotthenamedidntpayattentioninclass``` as a very simiple language which can easily be translated to machine code or a turing machine or a register machine
+This language is one of the most simple turing complete languages there is and was originally made by ```iforgotthenamedidntpayattentioninclass``` as a very simiple language which can easily be translated to machine code or a byte code or a register machine
    
  
